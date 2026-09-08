@@ -7,16 +7,21 @@ deterministic controls, and evaluation. I also maintain software that works offl
 
 | Project | What to inspect |
 |---|---|
-| [tool-journal](https://github.com/RaycarlLei/tool-journal) | A TypeScript/SQLite execution journal with lease fencing, explicit uncertainty, and real process-crash tests. Start with the [failure contract](https://github.com/RaycarlLei/tool-journal/blob/main/docs/contract.md) or [run the experiment](https://github.com/RaycarlLei/tool-journal#try-the-failure). |
-| [WordAI Community](https://github.com/RaycarlLei/WordAI) | Offline vocabulary learning in Flutter and SQLite. Explore [meaning-level progress](https://github.com/RaycarlLei/WordAI/blob/main/lib/services/learning_repository.dart), [review preparation](https://github.com/RaycarlLei/WordAI/blob/main/lib/services/review_preparation.dart), and [pronunciation tests](https://github.com/RaycarlLei/WordAI/blob/main/test/review_pronunciation_test.dart). |
+| [tool-journal](https://github.com/RaycarlLei/tool-journal) | A TypeScript/SQLite execution journal with lease fencing, explicit uncertainty, and real process-crash tests. Start with the [failure contract](https://github.com/RaycarlLei/tool-journal/blob/v0.1.2/docs/contract.md) or run the [LangGraph recovery example](https://github.com/RaycarlLei/tool-journal/tree/v0.1.2/integrations/langgraph). |
+| [WordAI Community](https://github.com/RaycarlLei/WordAI) | Offline vocabulary learning in Flutter and SQLite. Inspect [meaning-level progress and import transactions](https://github.com/RaycarlLei/WordAI/blob/v0.1.1/lib/services/learning_repository.dart), [import failure regressions](https://github.com/RaycarlLei/WordAI/blob/v0.1.1/test/home_import_widget_test.dart), and [bounded speech downloads](https://github.com/RaycarlLei/WordAI/blob/v0.1.1/test/community_gateway_test.dart). |
 
 A failure you can reproduce: a service commits an action, then the HTTP receipt
-is lost. In tool-journal's [synthetic HTTP example](https://github.com/RaycarlLei/tool-journal/tree/v0.1.1/examples/http),
+is lost. In tool-journal's [synthetic HTTP example](https://github.com/RaycarlLei/tool-journal/tree/v0.1.2/examples/http),
 recovery with downstream idempotency makes two calls for one effect; subsequent
 replay needs no service call. Without that downstream contract, recovery stays
-indeterminate after lease expiry. [Regression tests](https://github.com/RaycarlLei/tool-journal/blob/v0.1.1/tests/http-recovery.test.ts)
-and [experiment controls](https://github.com/RaycarlLei/tool-journal/blob/v0.1.1/docs/experiments.md)
+indeterminate after lease expiry. [Regression tests](https://github.com/RaycarlLei/tool-journal/blob/v0.1.2/tests/http-recovery.test.ts)
+and [experiment controls](https://github.com/RaycarlLei/tool-journal/blob/v0.1.2/docs/experiments.md)
 make the distinction inspectable.
+
+The [LangGraph process tests](https://github.com/RaycarlLei/tool-journal/blob/v0.1.2/integrations/langgraph/tests/recovery.test.ts)
+also kill a node after the journal saves its receipt but before the graph records
+the node's result. Resuming from the official SQLite checkpoint retrieves that
+receipt without another HTTP call.
 
 ## Product work
 
