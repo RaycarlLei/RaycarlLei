@@ -22,6 +22,29 @@ ability to save its receipt. The [regressions](https://github.com/RaycarlLei/too
 also demonstrate the limit: local admission cannot stop a delayed request from
 arriving after the provider forgets its key.
 
+## Upstream fixes
+
+Merged:
+
+| Pull request | Fix |
+|---|---|
+| [PrefectHQ/fastmcp#5140](https://github.com/PrefectHQ/fastmcp/pull/5140) | Percent-encode data-backed file names, so `#`, `%20` and other reserved characters no longer change the resource URI. Reported in [#5137](https://github.com/PrefectHQ/fastmcp/issues/5137). |
+| [crewAIInc/crewAI#7506](https://github.com/crewAIInc/crewAI/pull/7506) | Route `.txt` URLs through the existing safe URL fetcher instead of checking them as local paths. Reported in [#7505](https://github.com/crewAIInc/crewAI/issues/7505). |
+| [promptfoo/promptfoo#10955](https://github.com/promptfoo/promptfoo/pull/10955) | Reject webhook results without a boolean `pass`; a `{}` response previously passed both `webhook` and `not-webhook`. |
+| [agno-agi/agno#10203](https://github.com/agno-agi/agno/pull/10203) | Accept already-decoded text streams in `TextReader`, which previously returned no documents. |
+| [agno-agi/agno#10213](https://github.com/agno-agi/agno/pull/10213) | Continue sitemap discovery after truncated or corrupt `.xml.gz` data. |
+| [HKUDS/nanobot#5793](https://github.com/HKUDS/nanobot/pull/5793) | Apply recursive `list_dir` ignore rules only below the listed root, so `/tmp/build/project` is no longer reported as empty. |
+
+In review:
+
+- [CopilotKit/CopilotKit#7185](https://github.com/CopilotKit/CopilotKit/pull/7185): await results from async callable action handlers in the Python SDK.
+- [HKUDS/LightRAG#3979](https://github.com/HKUDS/LightRAG/pull/3979): keep token-sized segments when the recursive chunker meets no-op separators.
+- [OpenPipe/ART#908](https://github.com/OpenPipe/ART/pull/908): resume SFT dataset iteration at the exact batch instead of replaying completed batches.
+- [confident-ai/deepeval#3301](https://github.com/confident-ai/deepeval/pull/3301): close observed async generators when the consuming task is cancelled.
+- [confident-ai/deepeval#3302](https://github.com/confident-ai/deepeval/pull/3302): preserve `asend()` on observed async generators.
+
+Minimal reproductions for my bug reports live in [oss-reproductions](https://github.com/RaycarlLei/oss-reproductions).
+
 ## Product work
 
 I build [TraderBear](https://trader-bear.com/), a paper-first AI trading and research
